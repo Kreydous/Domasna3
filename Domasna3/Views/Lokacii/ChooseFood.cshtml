@@ -1,0 +1,19 @@
+﻿
+<h2>Choose Food</h2>
+
+
+@using (Html.BeginForm("Order", "Lokacii", FormMethod.Post))
+{
+    <select name="food">
+        @foreach (var item in Model)
+        {
+
+            <option value="@item">@item</option>
+        }
+    </select>
+
+    <button type="submit">ORDER</button>
+
+}
+
+

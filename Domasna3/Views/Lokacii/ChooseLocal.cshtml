@@ -1,8 +1,17 @@
 ﻿
 <h2>ChooseLocal</h2>
 
-@foreach(var item in Model)
-            {
-                <h3>@item.name</h3>
-            }
 
+@using (Html.BeginForm("ChooseFood", "Lokacii", FormMethod.Post))
+{
+    <select name="localName">
+        @foreach (var item in Model)
+        {
+
+            <option value="@item">@item</option>
+        }
+    </select>
+
+    <button type="submit">CHOOSE LOCAL</button>
+
+}
