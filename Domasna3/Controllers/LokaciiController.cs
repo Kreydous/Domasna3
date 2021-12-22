@@ -14,6 +14,8 @@ namespace Domasna3.Controllers
     {
         private lokaciiEntities2 db = new lokaciiEntities2();
         Order order = new Order();
+
+        [Authorize]
         public ActionResult Index()
         {
             //Choose city
@@ -29,6 +31,7 @@ namespace Domasna3.Controllers
 
         }
 
+        [Authorize]
         [HttpPost]
         public ActionResult ChooseLocal(string form)
         {
@@ -54,6 +57,8 @@ namespace Domasna3.Controllers
             return View(uniqueLst);
         }
 
+
+        [Authorize]
         public ActionResult ChooseFood()
         {
             var local = Request.Form["localName"];
@@ -65,6 +70,8 @@ namespace Domasna3.Controllers
             return View(menu);
         }
 
+
+        [Authorize]
         public ActionResult Order()
         {
             var food = Request.Form["food"];
