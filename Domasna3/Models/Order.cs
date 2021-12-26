@@ -7,8 +7,11 @@ namespace Domasna3.Models
 {
     public class Order
     {
+        public int ID { get; set; }
         public string City { get; set; }
         public string Local { get; set; }
-        public string Food { get; set; }
+        public List<FoodModel> FoodOrdered { get; set; }
+
+
     }
 }
