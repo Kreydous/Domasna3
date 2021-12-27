@@ -8,13 +8,11 @@
     @Scripts.Render("~/bundles/modernizr")
 
 </head>
-<!--
-<style>
-    body {
-        background-image:url(https://www.linkpicture.com/q/pozadina.jpg);
-    }
-</style>
-    -->
+ <style>
+     .body {
+         font: normal 15px "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+     }
+ </style>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
@@ -31,6 +29,7 @@
 
                     <li>@Html.ActionLink("Дома", "Index", "Home")</li>
                     <li>@Html.ActionLink("Choose City", "Index", "Lokacii")</li>
+                    <li>@Html.ActionLink("Order History", "Index", "OrderHistory")</li>
                     <li>@Html.ActionLink("За нас", "About", "Home")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")

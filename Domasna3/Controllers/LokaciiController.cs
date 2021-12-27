@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Domasna3.Models;
 using Newtonsoft.Json;
+using System.Security.Claims;
 
 namespace Domasna3.Controllers
 {
@@ -18,6 +19,7 @@ namespace Domasna3.Controllers
         [Authorize]
         public ActionResult Index()
         {
+            
             //Choose city
             List<string> city = new List<String>();
             var podatoci = db.mapas.ToList();
@@ -74,6 +76,9 @@ namespace Domasna3.Controllers
             return View(list);
         }
 
+
+
+
         [HttpPost]
         [Authorize]
         public ActionResult Order(List<FoodModel> checkBoxList)
@@ -100,6 +105,7 @@ namespace Domasna3.Controllers
                     {
                         item.Name = "Cupcake";
                     }
+                    item.UserName = HttpContext.User.Identity.Name;
                     orderedFood.Add(item);
                 }
             }
@@ -108,6 +114,13 @@ namespace Domasna3.Controllers
                 // nema selektirano nisto
             }
             order.FoodOrdered = orderedFood;
+            var username = HttpContext.User.Identity.Name;
+            order.UserName = username;
+            using (var db = new OrderContext())
+            {
+                db.Orders.Add(order);
+                db.SaveChanges();
+            }
             return View();
         }
     }

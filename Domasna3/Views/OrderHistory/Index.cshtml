@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<div style="margin-top: 10%;">
+    @foreach(var item in Model)
+            {
+                foreach(var i in item.FoodOrdered)
+                {
+                    <h4>@i.Name</h4>
+                }
+            }
+</div>
+
