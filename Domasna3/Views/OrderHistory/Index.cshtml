@@ -4,12 +4,28 @@
 }
 
 <div style="margin-top: 10%;">
-    @foreach(var item in Model)
+    @{
+        int counter = 1;
+        foreach (var item in Model)
+        {
+
+            <h5>Нарачка број: @counter - @item.orderStatus</h5>
+            if (item.orderStatus == 0)
             {
-                foreach(var i in item.FoodOrdered)
-                {
-                    <h4>@i.Name</h4>
-                }
+<ul >
+
+    <li>@Html.ActionLink("Доставено", "ChangeStatusToDelivered", "OrderHistory", new { order = item })</li>
+    <li>@Html.ActionLink("Откажи", "ChangeStatusToCanceled", "OrderHistory", new { order = item })</li>
+</ul>
+               
+
             }
+            foreach (var i in item.FoodOrdered)
+            {
+                <h4>@i.Name</h4>
+            }
+            counter++;
+        }
+    }
 </div>
 

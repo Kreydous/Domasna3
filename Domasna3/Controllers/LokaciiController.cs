@@ -66,11 +66,11 @@ namespace Domasna3.Controllers
             order.Local = local;
             var list = new List<FoodModel>
             {
-                 new FoodModel{Id = 1, Name = "Hamburger", Checked = false},
-                 new FoodModel{Id = 2, Name = "Pizza", Checked = false},
-                 new FoodModel{Id = 3, Name = "Salad", Checked = false},
-                 new FoodModel{Id = 4, Name = "Juice", Checked = false},
-                 new FoodModel{Id = 5, Name = "Cupcake", Checked = false},
+                 new FoodModel{Id = 1,Name = "Хамбургер", Checked = false},
+                 new FoodModel{Id = 2, Name = "Пица", Checked = false},
+                 new FoodModel{Id = 3, Name = "Салата", Checked = false},
+                 new FoodModel{Id = 4, Name = "Сок", Checked = false},
+                 new FoodModel{Id = 5, Name = "Колач", Checked = false},
 
             };
             return View(list);
@@ -90,20 +90,20 @@ namespace Domasna3.Controllers
                 {
                     if(item.Id == 1)
                     {
-                        item.Name = "Hamburger";
+                        item.Name = "Хамбургер";
                     }else if(item.Id == 2)
                     {
-                        item.Name = "Pizza";
+                        item.Name = "Пица";
                     }else if(item.Id == 3)
                     {
-                        item.Name = "Salad";
+                        item.Name = "Салата";
                     }else if(item.Id == 4)
                     {
-                        item.Name = "Juice";
+                        item.Name = "Сок";
                     }
                     else
                     {
-                        item.Name = "Cupcake";
+                        item.Name = "Колач";
                     }
                     item.UserName = HttpContext.User.Identity.Name;
                     orderedFood.Add(item);
@@ -114,6 +114,7 @@ namespace Domasna3.Controllers
                 // nema selektirano nisto
             }
             order.FoodOrdered = orderedFood;
+            order.orderStatus = Status.ACCEPTED;
             var username = HttpContext.User.Identity.Name;
             order.UserName = username;
             using (var db = new OrderContext())
@@ -123,5 +124,7 @@ namespace Domasna3.Controllers
             }
             return View();
         }
+
+
     }
 }

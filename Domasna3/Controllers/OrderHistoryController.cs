@@ -32,33 +32,67 @@ namespace Domasna3.Controllers
                     FoodModel food = new FoodModel();
                     List<FoodModel> filteredFood = new List<FoodModel>();
                     string k = order.ID.ToString();
-                    using (SqlConnection connection = new SqlConnection("Server=tcp:domasna3dbserver.database.windows.net,1433;Initial Catalog=Domasna3_db;Persist Security Info=False;User ID=dizajntim;Password=Dizajnt7.;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;"))
+                    using (SqlConnection connection = new SqlConnection("Server = tcp:domasna3dbserver.database.windows.net,1433; Initial Catalog = Domasna3_db; Persist Security Info = False; User ID = dizajntim; Password =Dizajnt7.; MultipleActiveResultSets = False; Encrypt = True; TrustServerCertificate = False; Connection Timeout = 30;"))
                     {
                         connection.Open();
-                        string query = "SELECT * FROM FoodModels WHERE FoodModels.Order_ID = " + k;
+                        string query = "SELECT * FROM FoodModels WHERE Order_ID in (" + k +")";
                         using (SqlCommand command = new SqlCommand(query, connection))
                         {
                             using (SqlDataReader reader = command.ExecuteReader())
                             {
                                 while (reader.Read())
                                 {
-                                    food.Id = reader.GetInt32(0);
-                                    food.Name = reader.GetString(1);
-                                    food.Checked = reader.GetBoolean(2);
-                                    food.UserName = reader.GetString(3);
-
+                                    FoodModel food1 = new FoodModel
+                                    {
+                                        Id = reader.GetInt32(0),
+                                        Name = reader.GetString(1),
+                                        Checked = reader.GetBoolean(2),
+                                        UserName = reader.GetString(3)
+                                    };
+                                    order.FoodOrdered.Add(food1);
                                 }
-                                filteredFood.Add(food);
+
                             }
                             
                         }
                     }
-                    order.FoodOrdered = filteredFood;
                     filteredOrders.Add(order);
 
                 }
             }
             return View(filteredOrders);
         }
+
+        public ActionResult ChangeStatusToDelivered(Order order)
+        {
+            int id = order.ID;
+            using (var db = new OrderContext())
+            {
+                if(db.Orders.Where(e => e.ID == id).FirstOrDefault() != null)
+                {
+                    db.Orders.Where(e => e.ID == id).FirstOrDefault().orderStatus = Status.DELIVERED;
+                   
+                }
+                db.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
+        public ActionResult ChangeStatusToCanceled(Order order)
+        {
+            int id = order.ID;
+            using (var db = new OrderContext())
+            {
+                if (db.Orders.Where(e => e.ID == id).FirstOrDefault() != null)
+                {
+                    db.Orders.Where(e => e.ID == id).FirstOrDefault().orderStatus = Status.CANCELED;
+                }
+
+
+                db.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
+        
+
     }
 }

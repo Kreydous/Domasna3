@@ -11,6 +11,13 @@ namespace Domasna3.Models
         public DbSet<Order> Orders { get; set; }
         public DbSet<FoodModel> FoodModels { get; set; }
     }
+
+    public enum Status
+    {
+        ACCEPTED,
+        DELIVERED,
+        CANCELED
+    }
     public class Order
     {
         public int ID { get; set; }
@@ -18,7 +25,11 @@ namespace Domasna3.Models
         public string Local { get; set; }
         public string UserName { get; set; }
         public List<FoodModel> FoodOrdered { get; set; }
-
+        public Status orderStatus { get; set; }
+        public Order()
+        {
+            FoodOrdered = new List<FoodModel>();
+        }
 
     }
 
