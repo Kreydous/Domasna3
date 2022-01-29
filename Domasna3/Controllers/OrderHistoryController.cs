@@ -32,7 +32,7 @@ namespace Domasna3.Controllers
                     FoodModel food = new FoodModel();
                     List<FoodModel> filteredFood = new List<FoodModel>();
                     string k = order.ID.ToString();
-                    using (SqlConnection connection = new SqlConnection("Server = tcp:domasna3dbserver.database.windows.net,1433; Initial Catalog = Domasna3_db; Persist Security Info = False; User ID = dizajntim; Password =Dizajnt7.; MultipleActiveResultSets = False; Encrypt = True; TrustServerCertificate = False; Connection Timeout = 30;"))
+                    using (SqlConnection connection = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Domasna3.Models.OrderContext;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"))
                     {
                         connection.Open();
                         string query = "SELECT * FROM FoodModels WHERE Order_ID in (" + k +")";
@@ -63,29 +63,30 @@ namespace Domasna3.Controllers
             return View(filteredOrders);
         }
 
-        public ActionResult ChangeStatusToDelivered(Order order)
+        public ActionResult ChangeStatusToDelivered(string order)
         {
-            int id = order.ID;
+            var id1 = (string)(RouteData.Values["id"]);
+            int id = Int32.Parse(id1);
             using (var db = new OrderContext())
             {
-                if(db.Orders.Where(e => e.ID == id).FirstOrDefault() != null)
-                {
-                    db.Orders.Where(e => e.ID == id).FirstOrDefault().orderStatus = Status.DELIVERED;
-                   
-                }
+                
+                    var o = db.Orders.SingleOrDefault(e => e.ID == id);
+                    o.orderStatus = Status.DELIVERED;
+                
+                
                 db.SaveChanges();
             }
             return RedirectToAction("Index");
         }
         public ActionResult ChangeStatusToCanceled(Order order)
         {
-            int id = order.ID;
+            var id1 = (string)(RouteData.Values["id"]);
+            int id = Int32.Parse(id1);
             using (var db = new OrderContext())
             {
-                if (db.Orders.Where(e => e.ID == id).FirstOrDefault() != null)
-                {
-                    db.Orders.Where(e => e.ID == id).FirstOrDefault().orderStatus = Status.CANCELED;
-                }
+
+                var o = db.Orders.SingleOrDefault(e => e.ID == id);
+                o.orderStatus = Status.CANCELED;
 
 
                 db.SaveChanges();
