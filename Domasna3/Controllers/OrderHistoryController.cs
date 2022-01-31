@@ -32,7 +32,7 @@ namespace Domasna3.Controllers
                     FoodModel food = new FoodModel();
                     List<FoodModel> filteredFood = new List<FoodModel>();
                     string k = order.ID.ToString();
-                    using (SqlConnection connection = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Domasna3.Models.OrderContext;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"))
+                    using (SqlConnection connection = new SqlConnection("Server=tcp:domasna3dbserver.database.windows.net,1433;Initial Catalog=Domasna3_db;Persist Security Info=False;User ID=dizajntim;Password=Dizajnt7.;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
                     {
                         connection.Open();
                         string query = "SELECT * FROM FoodModels WHERE Order_ID in (" + k +")";
